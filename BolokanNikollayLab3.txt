@@ -1,0 +1,48 @@
+1.Определить фамилии менеджеров, сотрудники которых продавали Настольные лампы.
+select distinct s2.sp_name from sperson s1, sperson s2,Product p, Sale sa
+where p.p_desc='Desc Lamp'and s1.man_id=s2.sp_id and sa.p_id=p.p_id and sa.sp_id=s1.sp_id
+go
+
+2.Вывести в одну таблицу данные о всех сотрудниках 
+и продажах (фамилия, название региона, комиссионные, дата, название товара, количество проданного товара).
+Select sp.sp_name,o.office,sp.comm, p.p_desc, sa.data,sa.qty
+from Sperson sp left join Sale sa on sa.sp_id=sp.sp_id left join Office o on sp.of_id=o.of_id 
+left join Product p on sa.p_id=p.p_id
+
+3.Определить фамилии менеджеров, сотрудники которых продавали  товары, произведенные фирмой Лампы Лама.
+Select distinct s2.sp_name from  Sperson s1, Sperson s2,Product p,
+Manufact m, Sale sa
+where m_name='Lampy Lama' and s1.man_id=s2.sp_id and
+sa.p_id=p.p_id and p.m_id=m.m_id and sa.sp_id=s1.sp_id
+
+4.Определить фамилии менеджеров, сотрудники которых продавали  товары, произведенные в Перу.
+Select distinct s2.sp_name 
+from Sperson s1, Sperson s2,Sale sa,Product p,Manufact m, Country cn
+where country='Peru' and s2.sp_id=s1.man_id and sa.sp_id=s1.sp_id
+and sa.p_id=p.p_id and p.m_id=m.m_id and m.cn_id=cn.cn_id
+
+5.Определить фамилии сотрудников, менеджеры которых продавали товары из Нигерии.
+select distinct s1.sp_name
+from Country cn, Manufact m, Product p,
+Sale sa, Sperson s1, Sperson s2
+where cn.country='Nigeria' and cn.cn_id=m.cn_id and 
+m.m_id=p.m_id and p.p_id=sa.p_id and sa.sp_id=s2.sp_id
+and s1.man_id=s2.sp_id
+
+6.Определить фамилии сотрудников, менеджеры которых работают в Чикаго.
+select distinct s1.sp_name 
+from Office o, Sperson s1, Sperson s2
+where o.office='Chicago' and o.of_id=s2.of_id
+and s2.sp_id=s1.man_id
+
+7.Определить фамилии менеджеров, сотрудники которых продавали 
+Настольные лампы клиентам из Японии.
+Select s2.sp_name from 
+Sale sa, Customer cu, Product p, Sperson s1, Sperson s2
+where p.p_desc='Desc Lamp' and cu.address='Tokyo' and sa.c_id=cu.c_id
+and sa.p_id=p.p_id and sa.sp_id=s1.sp_id and s2.sp_id=s1.man_id
+
+
+
+
+
